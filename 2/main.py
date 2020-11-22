@@ -61,7 +61,8 @@ while True:
         for j in range(len(cons[min_row])):
             a = cons[min_row][j] * factor
             cons[i][j] = cons[i][j] - a
-            z[i] = z[i] - a
+        for j in range(len(z)):
+            z[i] = z[i] - cons[min_row][j] * factor
         for k in range(len(b)):
             b[i] = b[i] - factor * b[min_row]
             
