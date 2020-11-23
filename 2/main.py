@@ -7,7 +7,7 @@
 print('Исходные данные:')
 print('z = x1 -2x2 + 2x3 - x4 -> extr')
 print('x1 + x2 + x4 = 7\n2x1 + x3 - x4 = 13\nxi >= 0')
-
+print('Будем искать max')
 
 cons = [[1, 1, 0, 1], [2, 0, 1, -1]] # initial ogranicheniya table
 z = [-1, 2, -2, 1, 0, 0]  # initial function
@@ -17,6 +17,12 @@ cons[0].append(1)
 cons[0].append(0)
 cons[1].append(0)
 cons[1].append(1)
+
+print('Задача в канонической форме:')
+print('x1 + x2 + x4 + x5 = 7')
+print('2x1 + x3 - x4 + x6 = 13')
+print('z - x1 + 2x2 - 2x3 + x4 = 0')
+print('xi >= 0')
 
 while True:
     # проверяем надо ли что-то делать
@@ -39,9 +45,11 @@ while True:
         xi = cons[i][min_column]
         if xi == 0:
             continue
+        if b[i] / xi < 0:
+            continue
         if min_row == -1:
-            if b[i] / xi < 0:
-                continue
+            #if b[i] / xi < 0:
+                #continue
             b_min = b[i] / xi
             min_row = i
         else:
@@ -61,11 +69,24 @@ while True:
         for j in range(len(cons[min_row])):
             a = cons[min_row][j] * factor
             cons[i][j] = cons[i][j] - a
-        for j in range(len(z)):
-            z[i] = z[i] - cons[min_row][j] * factor
-        for k in range(len(b)):
-            b[i] = b[i] - factor * b[min_row]
-            
+        b[i] = b[i] - b[min_row] * factor
+    factor = z[min_column] / cons[min_row][min_column]
+    for i in range(len(z)):
+        z[i] = z[i] - cons[min_row][i] * factor
+    b[len(b) - 1] = b[len(b) - 1] - b[min_row] * factor    
 
-print(z)
+basis = [0] * len(z)
+for i in range(len(z)):
+    if z[i] == 0:
+        basis[i] = True
+for i in range(len(cons)):
+    for j in range(len(cons[min_row])):
+        if cons[i][j] == 1 and basis[j] == True:
+            basis[j] = b[i]
+print('Конечная симплекс таблица:')
+for i in range(len(cons)):
+    print(cons[i], b[i])
+print(z, b[len(b) - 1])
+print('Ответ: ', end = "")
+print('z(max) = z({},{},{},{}) = {}'.format(basis[0], basis[1], basis[2], basis[3], b[len(b) - 1]))
 print('done')
