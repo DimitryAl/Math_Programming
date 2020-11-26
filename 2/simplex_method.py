@@ -51,8 +51,6 @@ def simplex():
             if b[i] / xi < 0:
                 continue
             if min_row == -1:
-                # if b[i] / xi < 0:
-                # continue
                 b_min = b[i] / xi
                 min_row = i
             else:
