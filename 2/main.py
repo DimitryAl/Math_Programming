@@ -18,16 +18,19 @@ b = [7, 13, 0]  # правые части
 print('\n1)Симплекс метод')
 print('2)Двойственная задача\n')
 
-n = int(input())
 
-if n == 1:
-    
-    simplex(cons, z, b)
-if n == 2:
-   
-    dual(cons, z, b)
-if n == 12:
-    simplex(cons, z, b)
-    #dual()
-    
+
+while True:
+    n = int(input())
+    if n == 1:
+        simplex(cons, z, b)
+        break
+    if n == 2:
+        dual(cons, z, b)
+        break
+    if n == 12:
+        simplex(cons, z, b)
+        #dual()
+        break
+    print('Wrong number, try again')
 print('\ndone')
