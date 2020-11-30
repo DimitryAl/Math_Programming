@@ -10,6 +10,10 @@ print('Исходные данные:')
 print('z = x1 -2x2 + 2x3 - x4 -> extr')
 print('x1 + x2 + x4 = 7\n2x1 + x3 - x4 = 13\nxi >= 0')
 
+cons = [[1, 1, 0, 1], 
+        [2, 0, 1, -1]]  # initial ogranicheniya table
+z = [-1, 2, -2, 1]  # initial function
+b = [7, 13, 0]  # правые части
 
 print('\n1)Симплекс метод')
 print('2)Двойственная задача\n')
@@ -18,12 +22,12 @@ n = int(input())
 
 if n == 1:
     
-    simplex()
+    simplex(cons, z, b)
 if n == 2:
    
-    dual()
+    dual(cons, z, b)
 if n == 12:
-    simplex()
-    dual()
+    simplex(cons, z, b)
+    #dual()
     
 print('\ndone')
