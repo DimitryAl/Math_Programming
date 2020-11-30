@@ -6,18 +6,20 @@ def table_output(cons ,b, z, text):
     print(z, b[len(b) - 1])
 
 
-def simplex():
+def simplex(cons, z, b):
     print('Решение задачи симплекс методом\n')
     print('Будем искать max')
-    cons = [[1, 1, 0, 1], [2, 0, 1, -1]]  # initial ogranicheniya table
-    z = [-1, 2, -2, 1, 0, 0]  # initial function
-    b = [7, 13, 0]  # правые части
+    # cons = [[1, 1, 0, 1], [2, 0, 1, -1]]  # initial ogranicheniya table
+    # z = [-1, 2, -2, 1, 0, 0]  # initial function
+    # b = [7, 13, 0]  # правые части
 
     cons[0].append(1)
     cons[0].append(0)
     cons[1].append(0)
     cons[1].append(1)
-
+    z.append(0)
+    z.append(0)
+    
     print('Задача в канонической форме:')
     print('x1 + x2 + x4 + x5 = 7')
     print('2x1 + x3 - x4 + x6 = 13')
