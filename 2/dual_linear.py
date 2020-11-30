@@ -3,15 +3,18 @@
 #https://math.semestr.ru/simplex/msimplex.php
 #https://math.semestr.ru/simplex/lec_dvoistven.php
 
-def dual():
+def dual(cons, z, b):
     print('Решение двойственной задачи')
     
     print('Матрица коэффициентов')
-    print('1\t1\t0\t1\t7')
-    print('2\t0\t1\t-1\t13')
-    print('1\t-2\t2\t-1')
+    print(cons[0], b[0])
+    print(cons[1], b[1])
+    print(z)    
     print('Транспонированная матрица коэффицентов')
-    print('1\t2\t1\n1\t0\t-2\n0\t1\t2\n1\t-1\t-1\n7\t13')
+    for i in range(len(cons[0])):
+        print(cons[0][i], cons[1][i], z[len(z) - 1 - i])
+    print(b[0], b[1])
+    
     print('Целевая функция: Z = 7y1 + 12y2  -> min')
     print('Ограничения:')
     print('y1 + 2y2 >= 1\ny1 >= -2\ny2 >= 2\ny1 - y2 >= -1\ny1,y2 - любое')
