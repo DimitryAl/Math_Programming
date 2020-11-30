@@ -7,6 +7,7 @@ def table_output(cons ,b, z, text):
 
 
 def simplex():
+    print('Решение задачи симплекс методом\n')
     print('Будем искать max')
     cons = [[1, 1, 0, 1], [2, 0, 1, -1]]  # initial ogranicheniya table
     z = [-1, 2, -2, 1, 0, 0]  # initial function
@@ -88,3 +89,4 @@ def simplex():
     table_output(cons, b, z, 'Конечная симплекс таблица:')
     print('Ответ: ', end="")
     print('z(max) = z({},{},{},{}) = {}'.format(basis[0], basis[1], basis[2], basis[3], b[len(b) - 1]))
+    print('\n')
