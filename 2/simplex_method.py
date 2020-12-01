@@ -1,17 +1,17 @@
+from prettytable import PrettyTable
 
 def table_output(cons ,b, z, text):
+    table = PrettyTable()
+    table.field_names = ["x1", "x2", "x3", "x4", "x5", "x6", "b"]
     print(text)
     for i in range(len(cons)):
-        print(cons[i], b[i])
-    print(z, b[len(b) - 1])
-
+        table.add_row([cons[i][0], cons[i][1], cons[i][2], cons[i][3], cons[i][4], cons[i][5], b[i]])
+    table.add_row([z[0], z[1], z[2], z[3], z[4], z[5], b[len(b) - 1]])
+    print(table)
 
 def simplex(cons, z, b):
     print('Решение задачи симплекс методом\n')
     print('Будем искать max')
-    # cons = [[1, 1, 0, 1], [2, 0, 1, -1]]  # initial ogranicheniya table
-    # z = [-1, 2, -2, 1, 0, 0]  # initial function
-    # b = [7, 13, 0]  # правые части
 
     cons[0].append(1)
     cons[0].append(0)
@@ -89,6 +89,7 @@ def simplex(cons, z, b):
             if cons[i][j] == 1 and basis[j] == True:
                 basis[j] = b[i]
     table_output(cons, b, z, 'Конечная симплекс таблица:')
+    print('Базис:')
     print('Ответ: ', end="")
     print('z(max) = z({},{},{},{}) = {}'.format(basis[0], basis[1], basis[2], basis[3], b[len(b) - 1]))
     print('\n')
