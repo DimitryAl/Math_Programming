@@ -12,10 +12,22 @@ def dual(cons, z, b):
     print(cons[1], b[1])
     print(z)    
     print('Транспонированная матрица коэффицентов')
-    for i in range(len(cons[0])):
-        print(cons[0][i], cons[1][i], z[len(z) - 1 - i])
-    print(b[0], b[1])
+    t_matrix = [[], [], []]
+    #for i in range(len(cons[0])):
+        #print(cons[0][i], cons[1][i], z[i])
+    for i in range(2):
+        for j in range(4):
+            t_matrix[i].append(cons[i][j])
+    for i in range(2):
+        t_matrix[i].append(b[i])
+    for i in range(4):
+        t_matrix[2].append(z[i])
     
+    for i in range(3):
+        for j in range(5):
+            print(t_matrix[i][j], end="")
+        print()
+
     print('Целевая функция: Z = 7y1 + 12y2  -> min')
     print('Ограничения:')
     print('y1 + 2y2 >= 1\ny1 >= -2\ny2 >= 2\ny1 - y2 >= -1\ny1,y2 - любое')
