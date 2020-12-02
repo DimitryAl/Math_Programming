@@ -5,17 +5,39 @@ from prettytable import PrettyTable
 #https://math.semestr.ru/simplex/lec_dvoistven.php
 # https://linprog.com/en/main-dual-simplex/result;queryParams=%7B%22n%22:2,%22m%22:4,%22max_min%22:1,%22values%22:%5B%5B%221%22,%222%22,%220%22,%221%22,%227%22%5D,%5B%222%22,%220%22,%221%22,%22-1%22,%2213%22%5D%5D,%22function%22:%5B%221%22,%22-2%22,%222%22,%22-1%22%5D,%22equalSign%22:%5B1,1%5D%7D
 
-'''
-def simplex(t_matrix):
+
+def table_output(cons ,b, z, text):
+    table = PrettyTable()
+    table.field_names = ["y1", "y2", "s1", "s2", "s3", "s4", "b"]
+    print(text)
+    for i in range(len(cons)):
+        table.add_row([cons[i][0], cons[i][1], cons[i][2], cons[i][3], cons[i][4], cons[i][5], b[i]])
+    table.add_row([z[0], z[1], z[2], z[3], z[4], z[5], b[len(b) - 1]])
+    print(table)
+
+
+def simplex(cons, z, b):
 
     cons[0].append(1)
     cons[0].append(0)
+    cons[0].append(0)
+    cons[0].append(0)
     cons[1].append(0)
     cons[1].append(1)
+    cons[1].append(0)
+    cons[1].append(0)
+    cons[2].append(0)
+    cons[2].append(0)
+    cons[2].append(1)
+    cons[2].append(0)
+    cons[3].append(0)
+    cons[3].append(0)
+    cons[3].append(0)
+    cons[3].append(1)
     z.append(0)
     z.append(0)
-    
-    
+    z.append(0)
+    z.append(0)
 
     table_output(cons, b, z, 'Начальная симплекс таблица:')
     step = 0
@@ -79,11 +101,15 @@ def simplex(t_matrix):
             if cons[i][j] == 1 and basis[j] == True:
                 basis[j] = b[i]
     table_output(cons, b, z, 'Конечная симплекс таблица:')
-    print('Базис:')
-    print('Ответ: ', end="")
-    print('z(max) = z({},{},{},{}) = {}'.format(basis[0], basis[1], basis[2], basis[3], b[len(b) - 1]))
+    print('Базис: ', end ='')
+    for i in range(len(basis)):
+        if basis[i] != 0:
+            print(f'x{i+1}', end = ',')
+    print('\nОтвет: ', end="")
+    print('z(min) = z({},{},{},{}) = {}'.format(basis[0], basis[1], basis[2], basis[3], b[len(b) - 1]))
     print('\n')
-'''
+
+
 
 def dual(cons, z, b):
     print('Решение двойственной задачи')
@@ -122,5 +148,8 @@ def dual(cons, z, b):
     print('Ограничения:')
     print('y1 + 2y2 >= 1\ny1 >= -2\ny2 >= 2\ny1 - y2 >= -1\ny1,y2 - любое')
     
-    #simplex(t_matrix)
+    cons = [[1,1], [-1, 0], [0, 1], [-1, 1]]
+    z = [-7, -13]
+    b =[1, 2, 2, 1, 0]
+    simplex(cons, z, b)
 
