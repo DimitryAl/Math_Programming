@@ -10,8 +10,6 @@ def table_output(cons ,b, z, text):
     print(table)
 
 def simplex(cons, z, b):
-    #print('Решение задачи симплекс методом\n')
-    #print('Будем искать max')
 
     cons[0].append(1)
     cons[0].append(0)
@@ -19,14 +17,6 @@ def simplex(cons, z, b):
     cons[1].append(1)
     z.append(0)
     z.append(0)
-    
-    '''
-    print('Задача в канонической форме:')
-    print('x1 + x2 + x4 + x5 = 7')
-    print('2x1 + x3 - x4 + x6 = 13')
-    print('z - x1 + 2x2 - 2x3 + x4 = 0')
-    print('xi >= 0')
-    '''
 
     table_output(cons, b, z, 'Начальная симплекс таблица:')
     step = 0
@@ -90,7 +80,10 @@ def simplex(cons, z, b):
             if cons[i][j] == 1 and basis[j] == True:
                 basis[j] = b[i]
     table_output(cons, b, z, 'Конечная симплекс таблица:')
-    print('Базис:')
-    print('Ответ: ', end="")
+    print('Базис: ', end ='')
+    for i in range(len(basis)):
+        if basis[i] != 0:
+            print(f'x{i+1}', end = ',')
+    print('\nОтвет: ', end="")
     print('z(max) = z({},{},{},{}) = {}'.format(basis[0], basis[1], basis[2], basis[3], b[len(b) - 1]))
     print('\n')
