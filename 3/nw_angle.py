@@ -3,34 +3,42 @@ import copy
 
 def check(i, j, stocks, needs, new_tar):
     cnt = 0
-    '''
-    if stocks[i] == 0:
-        for k in new_tar[i]:
-             if k == None:
-                 k = 0
-                 cnt += 1
-    if needs[j] == 0:
-        for k in range(len(new_tar)):
-            if new_tar[k][j] == None:
-                new_tar[k][j] = 0
-                cnt += 1
-    '''
     for k in range(len(new_tar[i])):
         if new_tar[i][k] == None:
             if needs[k] != 0:
                 if stocks[i] != 0:
                     if stocks[i] >= needs[k]:
-                        c = stocks[i] - needs[k]
+                        c = needs[k]
                         stocks[i] = stocks[i] - needs[k]
                         needs[k] = 0
                         new_tar[i][k] = c
                     else:
-                        c = needs[k] - stocks[i]
+                        c = stocks[i]
                         needs[k] = needs[k] - stocks[i]
                         stocks[i] = 0
                         new_tar[i][k] = c
-    
-    
+        if new_tar[i][k] == None:
+            new_tar[i][k] = 'Seen'
+        if (i, k) != (i, j):
+            cnt += 1
+    for k in range(len(new_tar[k])):
+        if new_tar[k][j] == None:
+            if needs[j] != 0:
+                if stocks[k] != 0:
+                    if stocks[k] >= needs[j]:
+                        c = needs[j]
+                        stocks[k] = stocks[k] - needs[j]
+                        needs[j] = 0
+                        new_tar[k][j] = c
+                    else:
+                        c = stocks[k]
+                        needs[j] = needs[j] - stocks[k]
+                        stocks[k] = 0
+                        new_tar[k][j] = c 
+        if new_tar[k][j] == None:
+            new_tar[k][j] = 'Seen'
+        if (k, j) != (i, j):
+            cnt += 1
     return cnt
 
 def nwangle(tariffs, stocks, needs, n):
