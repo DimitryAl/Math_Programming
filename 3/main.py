@@ -12,6 +12,7 @@
 
 from prettytable import PrettyTable
 from nw_angle import nwangle
+from min_elem_method import min_elem
 
 n = 4                           # размерность матрицы тарифов
 stocks = [75, 80, 60, 130]      # запасы
@@ -49,5 +50,5 @@ m = input('Выберете метод:\t')
 
 if m == '1':
     nwangle(tariffs, stocks, needs, n)
-#if m == '2':
-    #min_elem(tariffs, stocks, needs)
+if m == '2':
+    min_elem(tariffs, stocks, needs, n)
