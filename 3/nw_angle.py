@@ -13,13 +13,15 @@ def check(i, j, stocks, needs, new_tar):
                         stocks[i] = stocks[i] - needs[k]
                         needs[k] = 0
                         new_tar[i][k] = c
+                        cnt += 1
                     else:
                         c = stocks[i]
                         needs[k] = needs[k] - stocks[i]
                         stocks[i] = 0
                         new_tar[i][k] = c
-        if (i, k) != (i, j):
-            cnt += 1
+                        cnt +=1 
+        #if (i, k) != (i, j):
+            #cnt += 1
     for k in range(len(new_tar[k])):
         if new_tar[k][j] == 0:
             if needs[j] != 0:
@@ -29,13 +31,16 @@ def check(i, j, stocks, needs, new_tar):
                         stocks[k] = stocks[k] - needs[j]
                         needs[j] = 0
                         new_tar[k][j] = c
+                        cnt+=1
                     else:
                         c = stocks[k]
                         needs[j] = needs[j] - stocks[k]
                         stocks[k] = 0
                         new_tar[k][j] = c 
-        if (k, j) != (i, j):
-            cnt += 1
+                        cnt+=1
+        #if (k, j) != (i, j):
+            #cnt += 1
+    return cnt
 
 def nwangle(tariffs, stocks, needs, n):
     step = 0
@@ -67,7 +72,8 @@ def nwangle(tariffs, stocks, needs, n):
                     new_needs[j] = new_needs[j] - new_stocks[i]
                     new_stocks[i] = 0
                 new_tar[i][j] = c 
-                check(i, j, new_stocks, new_needs, new_tar)
+                step += 1
+                step += check(i, j, new_stocks, new_needs, new_tar)
     
     print('\nНачальное заполнение таблицы')
     table = PrettyTable()
@@ -80,8 +86,8 @@ def nwangle(tariffs, stocks, needs, n):
     # проверка на оптимальность методом потенциалов
     print('\nПроверка на оптимальность методом потенциалов')
     while True:
-        step += 1
-        print('\nШаг' + str(step))
+        #step += 1
+        #print('\nШаг' + str(step))
         u = [None for i in range(n)]
         v = [None for i in range(n)]
         u[0] = 0            # задаем начальное значение одному из потенциалов
@@ -183,3 +189,4 @@ def nwangle(tariffs, stocks, needs, n):
                 if (i, j) != (n-1, n-1):
                     print(' + ',end='')
     print(' =', S)
+    print(step)

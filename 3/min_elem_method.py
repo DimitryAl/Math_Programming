@@ -46,10 +46,12 @@ def min_elem(tariffs, stocks, needs, n):
                         c = new_needs[j]
                         new_stocks[i] = new_stocks[i] - new_needs[j]
                         new_needs[j] = 0
+                        step+=1
                     else:
                         c = new_stocks[i]
                         new_needs[j] = new_needs[j] - new_stocks[i]
                         new_stocks[i] = 0
+                        step+=1
                     new_tar[i][j] = c
 
         print('min =', min_tar)
