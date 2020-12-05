@@ -18,6 +18,7 @@ def min_search(n, cur_min, tar):
 
 def min_elem(tariffs, stocks, needs, n):
     step = 0
+    comp = 0
     new_tar = copy.deepcopy(tariffs)
     for i in range(n):
         for j in range(n):
@@ -34,7 +35,7 @@ def min_elem(tariffs, stocks, needs, n):
     print(table)
 
     # начальное заполнение
-    min_tar = 1
+    min_tar = -1
     while True:
         min_tar = min_search(n, min_tar, tariffs)
         for i in range(n):
@@ -46,13 +47,12 @@ def min_elem(tariffs, stocks, needs, n):
                         c = new_needs[j]
                         new_stocks[i] = new_stocks[i] - new_needs[j]
                         new_needs[j] = 0
-                        step+=1
                     else:
                         c = new_stocks[i]
                         new_needs[j] = new_needs[j] - new_stocks[i]
                         new_stocks[i] = 0
-                        step+=1
                     new_tar[i][j] = c
+                comp += 1
 
         print('min =', min_tar)
         table = PrettyTable()
@@ -174,3 +174,5 @@ def min_elem(tariffs, stocks, needs, n):
                 if (i, j) != (n-1, n-1):
                     print(' + ',end='')
     print(' =', S)
+    print('Проверок на оптимальность на оптимальность = ', step)
+    print('Количество сравнений при начальном заполнении = ', comp)

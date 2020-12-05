@@ -82,12 +82,12 @@ def nwangle(tariffs, stocks, needs, n):
         table.add_row(['A' + str(i), new_tar[i][0], new_tar[i][1], new_tar[i][2], new_tar[i][3], new_stocks[i]])
     table.add_row(['Потребности', new_needs[0], new_needs[1], new_needs[2], new_needs[3], ''])
     print(table)
-    
+    print('Количество шагов =', step)
     # проверка на оптимальность методом потенциалов
     print('\nПроверка на оптимальность методом потенциалов')
     while True:
-        #step += 1
-        #print('\nШаг' + str(step))
+        step += 1
+        print('\nШаг' + str(step))
         u = [None for i in range(n)]
         v = [None for i in range(n)]
         u[0] = 0            # задаем начальное значение одному из потенциалов
@@ -189,4 +189,4 @@ def nwangle(tariffs, stocks, needs, n):
                 if (i, j) != (n-1, n-1):
                     print(' + ',end='')
     print(' =', S)
-    print(step)
+    print('Количество шагов =', step)
