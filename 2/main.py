@@ -26,7 +26,7 @@ while True:
     n = int(input())
     if n == 1:
         print('Решение задачи симплекс методом\n')
-        print('Будем искать max')
+        print('Ищем max')
         print('Задача в канонической форме:')
         print('x1 + x2 + x4 + x5 = 7')
         print('2x1 + x3 - x4 + x6 = 13')

@@ -4,7 +4,18 @@ from prettytable import PrettyTable
 #https://math.semestr.ru/simplex/msimplex.php
 #https://math.semestr.ru/simplex/lec_dvoistven.php
 # https://linprog.com/en/main-dual-simplex/result;queryParams=%7B%22n%22:2,%22m%22:4,%22max_min%22:1,%22values%22:%5B%5B%221%22,%222%22,%220%22,%221%22,%227%22%5D,%5B%222%22,%220%22,%221%22,%22-1%22,%2213%22%5D%5D,%22function%22:%5B%221%22,%22-2%22,%222%22,%22-1%22%5D,%22equalSign%22:%5B1,1%5D%7D
+#http://reshmat.ru/simplex.html?maxOrMin=min&l1=7&l2=13&a11=1&a12=2&z1=3&b1=1&a21=1&a22=0&z2=3&b2=-2&a31=0&a32=1&z3=3&b3=2&a41=1&a42=-1&z4=3&b4=-1&step=2&sizeA=2&sizeB=4#b
 
+
+
+
+
+
+
+
+
+
+#https://math.semestr.ru/simplex/simplex.php
 
 def table_output(cons ,b, z, text):
     table = PrettyTable()
@@ -17,27 +28,6 @@ def table_output(cons ,b, z, text):
 
 
 def simplex(cons, z, b):
-
-    cons[0].append(1)
-    cons[0].append(0)
-    cons[0].append(0)
-    cons[0].append(0)
-    cons[1].append(0)
-    cons[1].append(1)
-    cons[1].append(0)
-    cons[1].append(0)
-    cons[2].append(0)
-    cons[2].append(0)
-    cons[2].append(1)
-    cons[2].append(0)
-    cons[3].append(0)
-    cons[3].append(0)
-    cons[3].append(0)
-    cons[3].append(1)
-    z.append(0)
-    z.append(0)
-    z.append(0)
-    z.append(0)
 
     table_output(cons, b, z, 'Начальная симплекс таблица:')
     step = 0
@@ -147,9 +137,14 @@ def dual(cons, z, b):
     print('\nЦелевая функция: Z = 7y1 + 13y2  -> min')
     print('Ограничения:')
     print('y1 + 2y2 >= 1\ny1 >= -2\ny2 >= 2\ny1 - y2 >= -1\n')
-    
-    cons = [[1,1], [-1, 0], [0, 1], [-1, 1]]
-    z = [-7, -13]
-    b =[1, 2, 2, 1, 0]
+    print('')
+    print('y1 + 2y2 >= 1\n-y1 <= 2\ny2 >= 2\n-y1 + y2 <= 1\n')
+    print('Вводим балансовые переменные:')
+    print('y1 + 2y2 - y3 >= 1\n-y1 + y4 <= 2\ny2 - y5 >= 2\n-y1 + y2 +y6 <= 1\n')
+
+    cons = [[1, -1, 0, -1], 
+            [2, 0, 1, 1]]
+    z = [1, 2, 2, 1, 0]
+    b =[7, 13, 0]
     simplex(cons, z, b)
 
