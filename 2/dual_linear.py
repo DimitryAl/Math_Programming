@@ -1,104 +1,13 @@
 from prettytable import PrettyTable
 
-#https://cbom.atozmath.com/CBOM/Simplex.aspx?q=pd&q1=4%602%60MAX%60Z%60x1%2cx2%2cx3%2cx4%601%2c-2%2c2%2c-1%601%2c1%2c0%2c1%3b2%2c0%2c1%2c-1%60%3d%2c%3d%607%2c13%60%60D%60false%60true%60false%60true%60false%60false%60true&do=1#PrevPart
-#https://math.semestr.ru/simplex/msimplex.php
-#https://math.semestr.ru/simplex/lec_dvoistven.php
-# https://linprog.com/en/main-dual-simplex/result;queryParams=%7B%22n%22:2,%22m%22:4,%22max_min%22:1,%22values%22:%5B%5B%221%22,%222%22,%220%22,%221%22,%227%22%5D,%5B%222%22,%220%22,%221%22,%22-1%22,%2213%22%5D%5D,%22function%22:%5B%221%22,%22-2%22,%222%22,%22-1%22%5D,%22equalSign%22:%5B1,1%5D%7D
-#http://reshmat.ru/simplex.html?maxOrMin=min&l1=7&l2=13&a11=1&a12=2&z1=3&b1=1&a21=1&a22=0&z2=3&b2=-2&a31=0&a32=1&z3=3&b3=2&a41=1&a42=-1&z4=3&b4=-1&step=2&sizeA=2&sizeB=4#b
-
-
-
-
-
-
-
-
-
-
-#https://math.semestr.ru/simplex/simplex.php
-
 def table_output(cons ,b, z, text):
     table = PrettyTable()
-    table.field_names = ["y1", "y2", "s1", "s2", "s3", "s4", "b"]
+    table.field_names = ["y1", "y2", "s1", "s2", "s3", "s4", 'r1', 'r2', "b"]
     print(text)
     for i in range(len(cons)):
-        table.add_row([cons[i][0], cons[i][1], cons[i][2], cons[i][3], cons[i][4], cons[i][5], b[i]])
-    table.add_row([z[0], z[1], z[2], z[3], z[4], z[5], b[len(b) - 1]])
+        table.add_row([cons[i][0], cons[i][1], cons[i][2], cons[i][3], cons[i][4], cons[i][5], cons[i][6], cons[i][7], b[i]])
+    table.add_row([z[0], z[1], z[2], z[3], z[4], z[5], z[6], z[7], b[len(b) - 1]])
     print(table)
-
-
-def simplex(cons, z, b):
-
-    table_output(cons, b, z, 'Начальная симплекс таблица:')
-    step = 0
-    while True:
-        step += 1
-        # проверяем надо ли что-то делать
-        sign = 1
-        for i in range(len(z)):
-            if z[i] < 0:
-                sign = -1
-        if sign > 0:
-            break
-        # ищем опорный столбец
-        min_number = z[0]
-        min_column = 0
-        for i in range(len(z)):
-            if z[i] < min_number:
-                min_number = z[i]
-                min_column = i
-        # ищем опорный элемент
-        min_row = -1
-        for i in range(len(cons)):
-            xi = cons[i][min_column]
-            if xi == 0:
-                continue
-            if b[i] / xi < 0:
-                continue
-            if min_row == -1:
-                b_min = b[i] / xi
-                min_row = i
-            else:
-                if (b[i] / xi) < b_min:
-                    b_min = b[i] / xi
-                    min_row = i
-        # делаем так чтобы опорный элемент равнялся нулю
-        divider = cons[min_row][min_column]
-        for i in range(len(cons[min_row])):
-            cons[min_row][i] = cons[min_row][i] / divider
-        # делаем так чтобы в опорном столбце были все нули кроме опорного элемента
-        for i in range(len(cons)):
-            if i == min_row:
-                continue
-            factor = cons[i][min_column] / cons[min_row][min_column]
-            for j in range(len(cons[min_row])):
-                a = cons[min_row][j] * factor
-                cons[i][j] = cons[i][j] - a
-            b[i] = b[i] - b[min_row] * factor
-        factor = z[min_column] / cons[min_row][min_column]
-        for i in range(len(z)):
-            z[i] = z[i] - cons[min_row][i] * factor
-        b[len(b) - 1] = b[len(b) - 1] - b[min_row] * factor
-        table_output(cons, b, z, 'Шаг {}:'.format(step))
-
-
-    basis = [0] * len(z)
-    for i in range(len(z)):
-        if z[i] == 0:
-            basis[i] = True
-    for i in range(len(cons)):
-        for j in range(len(cons[min_row])):
-            if cons[i][j] == 1 and basis[j] == True:
-                basis[j] = b[i]
-    table_output(cons, b, z, 'Конечная симплекс таблица:')
-    print('Базис: ', end ='')
-    for i in range(len(basis)):
-        if basis[i] != 0:
-            print(f'x{i+1}', end = ',')
-    print('\nОтвет: ', end="")
-    print('z(min) = z({},{},{},{}) = {}'.format(basis[0], basis[1], basis[2], basis[3], b[len(b) - 1]))
-    print('\n')
-
 
 
 def dual(cons, z, b):
@@ -134,17 +43,122 @@ def dual(cons, z, b):
             if t_matrix[j][i] != None:
                 print(t_matrix[j][i], end="\t")
         print()
+    
     print('\nЦелевая функция: Z = 7y1 + 13y2  -> min')
     print('Ограничения:')
     print('y1 + 2y2 >= 1\ny1 >= -2\ny2 >= 2\ny1 - y2 >= -1\n')
-    print('')
-    print('y1 + 2y2 >= 1\n-y1 <= 2\ny2 >= 2\n-y1 + y2 <= 1\n')
     print('Вводим балансовые переменные:')
-    print('y1 + 2y2 - y3 >= 1\n-y1 + y4 <= 2\ny2 - y5 >= 2\n-y1 + y2 +y6 <= 1\n')
+    print('y1 + 2y2 - s1 >= 1\n-y1 + s2 <= 2\ny2 - s3 >= 2\n-y1 + y2 +s4 <= 1\n')
+    
+    print('Базиса нет => вводим искусственные переменные, где нет базисной переменной')
+    print('y1 + 2y2 - s1 + r1>= 1\n-y1 + s2 <= 2\ny2 - s3 + r2>= 2\n-y1 + y2 +s4 <= 1')
+    print('r1, r2 >= 0')
+    print('Z = 7y1 + 13y2 + 0s1 + 0s2 + 0s3 + 0s4 + 0r1 + 0r2')
+    print('Начальный базис: s2, s4, r1, r2\n')
+    '''
+    print('Введем в рассмотрение функцию W и будем искать ее наименьшее значение.\nW = r1 + r2')
+    print('W = (1- y1 - 2y2 + s1) + r2 = 1 - y1 - 2y2 + s1 + r2')
+    print('W = 1 - x1 -2x2 + s1 + (2 - x2 + s3) = 3 - x1- 3x2 + s1 + s3')
+    print('Приравниваем свободные переменные к нулю; Наименьшее W = 3')
+    '''
+    cons = [[1, 2, -1, 0, 0, 0, 1, 0],
+            [-1, 0, 0, 1, 0, 0, 0, 0],
+            [0, 1, 0, 0, -1, 0, 0, 1],
+            [-1, 1, 0, 0, 0, 1, 0, 0]
+            ]
+    b = [1, 2, 2, 1, -3]
+    z = [-1, -3, 1, 0, 1, 0, 0, 0]
 
-    cons = [[1, -1, 0, -1], 
-            [2, 0, 1, 1]]
-    z = [1, 2, 2, 1, 0]
-    b =[7, 13, 0]
-    simplex(cons, z, b)
+    table_output(cons, b, z, 'Начальная симплекс таблица:')
 
+    basis = [False] * len(z)
+    basis[3] = True
+    basis[5] = True
+    basis[6] = True
+    basis[7] = True
+    letters = ['y1', 'y2', 's1', 's2', 's3', 's4','r1', 'r2',]
+    print('Текущий базис:', end='\t')
+    for i in range(len(basis)):
+        if basis[i]:
+            print(letters[i], end=' ')
+    print()
+    step = 0
+    while True:
+        step += 1
+        # проверяем надо ли что-то делать
+        sign = 1
+        for i in range(len(z)):
+            if z[i] < 0:
+                sign = -1
+        if sign > 0:
+            break
+        # ищем опорную столбец
+        min_number = z[0]
+        min_column = 0
+        for i in range(len(z)):
+            if z[i] < min_number:
+                min_number = z[i]
+                min_column = i
+        # ищем опорный строку
+        min_row = -1
+        for i in range(len(cons)):
+            xi = cons[i][min_column]
+            if xi == 0:
+                continue
+            if xi < 0:
+                continue
+            if min_row == -1:
+                b_min = b[i] / xi
+                min_row = i
+            else:
+                if (b[i] / xi) < b_min:
+                    b_min = b[i] / xi
+                    min_row = i
+        #меняем базиз
+        basis[min_column] = True
+        for i in range(len(cons[min_row])):
+            if cons[min_row][i] == 1 and basis[i] == True and i != min_column:
+                basis[i] = False
+
+        # делаем так чтобы опорный элемент равнялся единице
+        divider = cons[min_row][min_column]
+        for i in range(len(cons[min_row])):
+            cons[min_row][i] = cons[min_row][i] / divider
+        b[min_row] = b[min_row] / divider
+        # делаем так чтобы в опорном столбце были все нули кроме опорного элемента
+        for i in range(len(cons)):
+            if i == min_row:
+                continue
+            factor = cons[i][min_column] / cons[min_row][min_column]
+            for j in range(len(cons[min_row])):
+                a = cons[min_row][j] * factor
+                cons[i][j] = cons[i][j] - a
+            b[i] = b[i] - b[min_row] * factor
+        factor = z[min_column] / cons[min_row][min_column]
+        for i in range(len(z)):
+            z[i] = z[i] - cons[min_row][i] * factor
+        b[len(b) - 1] = b[len(b) - 1] - b[min_row] * factor
+        table_output(cons, b, z, 'Шаг {}:'.format(step))
+        # вывод базиса
+        print('Текущий базис:', end='\t')
+        for i in range(len(basis)):
+            if basis[i]:
+                print(letters[i], end=' ')
+        print()
+
+    table_output(cons, b, z, 'Конечная симплекс таблица:')
+    print('Конечный базис:', end='\t')
+    for i in range(len(basis)):
+        if basis[i]:
+            print(letters[i], end=' ')
+    print()
+    for i in range(len(cons)):
+        for j in range(len(cons[min_row])):
+            if cons[i][j] == 1 and basis[j] == True:
+                basis[j] = b[i]
+    for i in range(len(basis)):
+        if basis[i]:
+            print(letters[i], '=', basis[i])
+    print('\nОтвет: ', end="")
+    print(f'Z = {7*basis[0]+13*basis[1]}')
+    print('\n')
