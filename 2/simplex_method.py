@@ -51,10 +51,11 @@ def simplex(cons, z, b):
                 if (b[i] / xi) < b_min:
                     b_min = b[i] / xi
                     min_row = i
-        # делаем так чтобы опорный элемент равнялся нулю
+        # делаем так чтобы опорный элемент равнялся единице
         divider = cons[min_row][min_column]
         for i in range(len(cons[min_row])):
             cons[min_row][i] = cons[min_row][i] / divider
+        b[min_row] = b[min_row] / divider
         # делаем так чтобы в опорном столбце были все нули кроме опорного элемента
         for i in range(len(cons)):
             if i == min_row:
