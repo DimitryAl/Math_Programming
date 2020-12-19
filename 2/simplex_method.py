@@ -19,6 +19,17 @@ def simplex(cons, z, b):
     z.append(0)
 
     table_output(cons, b, z, 'Начальная симплекс таблица:')
+    
+    basis = [0] * len(z)
+    basis[4] = True
+    basis[5] = True
+    letters = ['x1', 'x2', 'x3', 'x4', 'x5', 'x6']
+    print('Текущий базис:', end='\t')
+    for i in range(len(basis)):
+        if basis[i]:
+            print(letters[i], end=' ')
+    print()
+    
     step = 0
     while True:
         step += 1
@@ -51,6 +62,11 @@ def simplex(cons, z, b):
                 if (b[i] / xi) < b_min:
                     b_min = b[i] / xi
                     min_row = i
+        #меняем базиз
+        basis[min_column] = True
+        for i in range(len(cons[min_row])):
+            if cons[min_row][i] == 1 and basis[i] == True and i != min_column:
+                basis[i] = 0
         # делаем так чтобы опорный элемент равнялся единице
         divider = cons[min_row][min_column]
         for i in range(len(cons[min_row])):
@@ -70,21 +86,24 @@ def simplex(cons, z, b):
             z[i] = z[i] - cons[min_row][i] * factor
         b[len(b) - 1] = b[len(b) - 1] - b[min_row] * factor
         table_output(cons, b, z, 'Шаг {}:'.format(step))
-
-
-    basis = [0] * len(z)
-    for i in range(len(z)):
-        if z[i] == 0:
-            basis[i] = True
+        # вывод базиса
+        print('Текущий базис:', end='\t')
+        for i in range(len(basis)):
+            if basis[i]:
+                print(letters[i], end=' ')
+        print()
+    table_output(cons, b, z, 'Конечная симплекс таблица:')
+    for i in range(len(basis)):
+        if basis[i]:
+            print(letters[i], end=' ')
+    print()
     for i in range(len(cons)):
         for j in range(len(cons[min_row])):
             if cons[i][j] == 1 and basis[j] == True:
                 basis[j] = b[i]
-    table_output(cons, b, z, 'Конечная симплекс таблица:')
-    print('Базис: ', end ='')
     for i in range(len(basis)):
-        if basis[i] != 0:
-            print(f'x{i+1}', end = ',')
+        if basis[i]:
+            print(letters[i], '=', basis[i])
     print('\nОтвет: ', end="")
     print('z(max) = z({},{},{},{}) = {}'.format(basis[0], basis[1], basis[2], basis[3], b[len(b) - 1]))
     print('\n')
